@@ -15,4 +15,16 @@ class RemoteService {
       throw Exception('Error');
     }
   }
+
+  Future<List<dynamic>> fetchCountryStats() async {
+    var data;
+    var response = await http.get(Uri.parse(AppUrl.countriesList));
+
+    if (response.statusCode == 200) {
+      data = jsonDecode(response.body);
+      return data;
+    } else {
+      throw Exception('Error');
+    }
+  }
 }
