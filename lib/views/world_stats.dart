@@ -1,4 +1,7 @@
+import 'package:covid_tracker_app/models/world_states.dart';
+import 'package:covid_tracker_app/services/remote_services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 class WorldStats extends StatefulWidget {
@@ -20,57 +23,87 @@ class _WorldStatsState extends State<WorldStats> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    RemoteService remoteService = RemoteService();
     return Scaffold(
       body: SafeArea(
-          child: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .05,
-          ),
-          PieChart(
-            dataMap: const {'Totals': 30, 'Recovered': 15, 'Death': 5},
-            animationDuration: const Duration(seconds: 3),
-            chartType: ChartType.ring,
-            chartRadius: MediaQuery.of(context).size.width / 3.2,
-            colorList: const [Colors.blue, Colors.green, Colors.red],
-            legendOptions:
-                const LegendOptions(legendPosition: LegendPosition.left),
-          ),
-          Padding(
-            padding: EdgeInsets.all(MediaQuery.of(context).size.height * .019),
-            child: Card(
-              child: Column(
-                children: const [
-                  ReuseableRow(
-                    title: 'Total',
-                    data: '2000',
-                  ),
-                  ReuseableRow(
-                    title: 'Total',
-                    data: '2000',
-                  ),
-                  ReuseableRow(
-                    title: 'Total',
-                    data: '2000',
-                  )
-                ],
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(MediaQuery.of(context).size.height * .024),
-            height: MediaQuery.of(context).size.height * 0.07,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5), color: Colors.green),
-            child: const Center(
-              child: Text(
-                'Track Country',
-                textScaleFactor: 1.18,
-              ),
-            ),
-          )
-        ],
-      )),
+          child: FutureBuilder(
+              future: remoteService.fetchWorldStats(),
+              builder: (context, AsyncSnapshot<WorldStates> snapshot) {
+                if (!snapshot.hasData) {
+                  return Expanded(
+                      flex: 1,
+                      child: SpinKitFadingCircle(
+                        color: Colors.white,
+                        controller: animationController,
+                      ));
+                } else {
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * .05,
+                      ),
+                      PieChart(
+                        dataMap: {
+                          'Totals':
+                              double.parse(snapshot.data!.cases!.toString()),
+                          'Recovered': double.parse(
+                              snapshot.data!.recovered!.toString()),
+                          'Death':
+                              double.parse(snapshot.data!.deaths!.toString())
+                        },
+                        chartValuesOptions: const ChartValuesOptions(
+                            showChartValuesInPercentage: true),
+                        animationDuration: const Duration(seconds: 3),
+                        chartType: ChartType.ring,
+                        chartRadius: MediaQuery.of(context).size.width / 3.2,
+                        colorList: const [
+                          Colors.blue,
+                          Colors.green,
+                          Colors.red
+                        ],
+                        legendOptions: const LegendOptions(
+                            legendPosition: LegendPosition.left),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.height * .019),
+                        child: Card(
+                          child: Column(
+                            children: const [
+                              ReuseableRow(
+                                title: 'Total',
+                                data: '2000',
+                              ),
+                              ReuseableRow(
+                                title: 'Total',
+                                data: '2000',
+                              ),
+                              ReuseableRow(
+                                title: 'Total',
+                                data: '2000',
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(
+                            MediaQuery.of(context).size.height * .024),
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.green),
+                        child: const Center(
+                          child: Text(
+                            'Track Country',
+                            textScaleFactor: 1.18,
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+                }
+              })),
     );
   }
 }
