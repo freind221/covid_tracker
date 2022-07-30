@@ -38,52 +38,49 @@ class _DetailPageState extends State<DetailPage> {
         title: Text(widget.name),
         centerTitle: true,
       ),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(
-                      MediaQuery.of(context).size.height * 0.067),
-                  child: Card(
-                    child: Column(children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.067,
-                      ),
-                      ReuseableRow(
-                          title: 'Total cases',
-                          data: widget.totalCase.toString()),
-                      ReuseableRow(
-                          title: 'Active cases',
-                          data: widget.active.toString()),
-                      ReuseableRow(
-                          title: 'Criticle ', data: widget.criticle.toString()),
-                      ReuseableRow(
-                          title: 'Today Recovered',
-                          data: widget.todayRecovered.toString()),
-                      ReuseableRow(
-                          title: 'Total Recovered',
-                          data: widget.totalRecovered.toString()),
-                      ReuseableRow(
-                          title: 'Total Deaths',
-                          data: widget.totalDeath.toString()),
-                      ReuseableRow(
-                          title: 'Total Tests', data: widget.test.toString()),
-                    ]),
-                  ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Padding(
+                padding:
+                    EdgeInsets.all(MediaQuery.of(context).size.height * 0.067),
+                child: Card(
+                  child: Column(children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.067,
+                    ),
+                    ReuseableRow(
+                        title: 'Total cases',
+                        data: widget.totalCase.toString()),
+                    ReuseableRow(
+                        title: 'Active cases', data: widget.active.toString()),
+                    ReuseableRow(
+                        title: 'Criticle ', data: widget.criticle.toString()),
+                    ReuseableRow(
+                        title: 'Today Recovered',
+                        data: widget.todayRecovered.toString()),
+                    ReuseableRow(
+                        title: 'Total Recovered',
+                        data: widget.totalRecovered.toString()),
+                    ReuseableRow(
+                        title: 'Total Deaths',
+                        data: widget.totalDeath.toString()),
+                    ReuseableRow(
+                        title: 'Total Tests', data: widget.test.toString()),
+                  ]),
                 ),
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: NetworkImage(widget.image),
-                )
-              ],
-            ),
-          ],
-        ),
+              ),
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: NetworkImage(widget.image),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

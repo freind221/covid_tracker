@@ -110,7 +110,8 @@ class _WorldStatsState extends State<WorldStats> with TickerProviderStateMixin {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => CountriesList()));
+                                    builder: (context) =>
+                                        const CountriesListScreen()));
                           },
                           child: Container(
                             margin: EdgeInsets.all(
